@@ -16,24 +16,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
-<div ng-controller="censusCtrl">
+<div ng-controller="hospitalsCtrl">
 <!-- JJV DEBUG BUTTONS -->
-<input type="text" ng-model="curTract" name="testTract"/><input type="button" name="testBtn" ng-click="getData();" value="Test"/>
+<input type="text" ng-model="longitude" name="longitude"/><input type="text" ng-model="latitude" name="latitude"/><input type="button" name="testBtn" ng-click="getData();" value="Test"/>
 <!-- END JJV DEBUG -->
     <table class='table table-condensed table-striped table-hover'>
-        <tr><td>
-          Population: <span ng-bind="PopInfo"></span>
+        <tr ng-repeat="x in hospInfo"><td>
+           <div>{{ x.facility_name }}</div>
+           <div>{{ x.dba_address1 }}</div>
+           <div>{{ x.dba_city }},CA {{ x.dba_zip_code }}</div>
+           <!-- JJV DEBUG - COORDINATES -->
+           <div>{{ x.longitude }} {{ x.latitude }}</div>
+           <!-- END JJV DEBUG -->
         </td></tr>
-        <tr><td>
-          Median Income: <span ng-bind="IncInfo"></span>
-          </td></tr>
-        <tr><td>
-          Average Age: <span ng-bind="AgeInfo"></span>
-          </td></tr>
-<!-- JJV TODO
-        <tr><td>
-          Education: <span ng-bind="EduHSInfo"></span>
-          </td></tr>
--->
     </table>
 </div>

@@ -17,9 +17,33 @@
  */
 
 
-app.controller("censusCtrl", function($scope) {
-    $scope.PopInfo = "Population";
-    $scope.IncInfo = "Income";
-    $scope.AgeInfo = "Age Demographic";
-    $scope.EduInfo = "Education";
+app.controller("censusCtrl", function($scope,$http) {
+    $scope.PopInfo = "";
+    $scope.IncInfo = "";
+    $scope.AgeInfo = "";
+    $scope.EduHSInfo = "";
+    $scope.curTract = "";
+
+    $scope.censusTableIDs = {
+       'B01003':'PopInfo',
+       'B19013':'IncInfo',
+       'B01002':'AgeInfo'
+    };
+    tableSet = '';
+  
+    for (eachKey in $scope.censusTableIDs) {
+      if (tableSet == '')
+        tableSet = eachKey;
+      else
+        tableSet = tableSet + ',' + eachKey;
+    }
+
+    $scope.getData = function () {
+       $http.get('http://api.censusreporter.org/1.0/data/show/latest?table_ids='+tableSet+'&geo_ids='+$scope.curTract+'&primary_geo_id='+$scope.curTract)
+          .success(function(response) {
+             for (eachKey in $scope.censusTableIDs) {
+               $scope[$scope.censusTableIDs[eachKey]] = response['data'][$scope.curTract][eachKey]['estimate'][eachKey+'001'];
+             }
+          });
+    }
 });
