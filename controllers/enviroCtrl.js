@@ -17,11 +17,23 @@
  */
 
 
-var app = angular.module('healthApp', []).controller('healthCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+app.controller("enviroCtrl", ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
     
-    $scope.updateAddress = function(geoId, lat, lng) {
-        console.log("click");
-        $rootScope.$broadcast('healthCtrl.updateAddress', '1212US06019005510');
-        $rootScope.$broadcast('healthCtrl.updateAddressLatLng', {'latitude' : lat, 'longitude': lng, 'coordRange' : .145});
-    };
+    var unbind = $rootScope.$on('healthCtrl.updateAddress', function(event, arg){
+        console.log('enviro got event: ' + arg);
+        
+        $http.get('dataAccess/enviroData.php?geoId=' + arg).
+            success(function(data, status, headers, config) {
+                for (row in data)
+                {
+                    $scope.percentRange = data[row]["CES 2.0 Percentile Range"];
+                }
+            }).
+            error(function(data, status, headers, config) {
+              console.log("Error updating environment data.");
+            });
+
+    });
+
+    $scope.$on('$destroy', unbind);
 }]);

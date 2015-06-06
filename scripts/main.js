@@ -53,6 +53,7 @@ window.onpopstate = function(event) {
         var address = event.state.address;
         if (lat && lng) {
             updateLocation(lat, lng, address);
+            
         }
     }
 }
@@ -71,14 +72,16 @@ function updateLocation(lat, lng, label) {
             cache: false
           })
             .done(function( resp ) {
-              if(resp.results.length > 0)
-              {
-                  thisGeoID = resp.results[0]["full_geoid"];
-                addMapOverlay(thisGeoID);
-               }
+                if(resp.results.length > 0)
+                {
+                    thisGeoID = resp.results[0]["full_geoid"];
+                    addMapOverlay(thisGeoID);
+                    var scope = angular.element($("#healthCtrl")).scope();
+                    scope.updateAddress(thisGeoID, lat, lng);
+                }
             });
 
-        var state = {lat: lat, lng: lng, address: label}
+        var state = {lat: lat, lng: lng, address: label};
         if (!(_.isEqual(history.state,state))) {
             history.pushState(state,push_state_title_template(state),push_state_url_template(state));
         }
@@ -259,3 +262,12 @@ function addMapOverlay(geo_id) {
     });
 }
 
+function getFilteredEnviroRow(_envirodata, geoId)
+{
+    var results = _envirodata;
+    
+    results = _.filter(results, function(item) { 
+        return item.id.indexOf('address.') == 0; 
+    
+    });
+}

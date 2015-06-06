@@ -17,7 +17,7 @@
  */
 
 
-app.controller("hospitalsCtrl", function($scope,$http) {
+app.controller("hospitalsCtrl", ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
 
     $scope.hospInfo = []; 
     $scope.latitude = '';
@@ -39,5 +39,27 @@ app.controller("hospitalsCtrl", function($scope,$http) {
                $scope.hospInfo.push(response[eachItemIdx]);  
              }
           });
-    }
-});
+    };
+    
+    var unbind = $rootScope.$on('healthCtrl.updateAddressLatLng', function(event, arg){
+        console.log('hospital got event: ' + arg);
+        $scope.coordLowerLong = parseFloat(arg.longitude) - arg.coordRange;
+       $scope.coordUpperLong = parseFloat(arg.longitude) + arg.coordRange;
+       $scope.coordLowerLat = parseFloat(arg.latitude) - arg.coordRange;
+       $scope.coordUpperLat = parseFloat(arg.latitude) + arg.coordRange;
+        
+        $scope.hospInfo = [];
+        $http.get('https://chhs.data.ca.gov/resource/7awe-ix88.json?$select=facility_name,dba_address1,dba_city,dba_zip_code,longitude,latitude&$where=longitude > '+$scope.coordLowerLong.toString()+' and longitude < '+$scope.coordUpperLong.toString()+' and latitude > '+$scope.coordLowerLat.toString()+' and latitude < '+$scope.coordUpperLat.toString()).
+            success(function(data, status, headers, config) {
+                for (eachItemIdx = 0; eachItemIdx <  data.length; eachItemIdx++) {
+                    $scope.hospInfo.push(data[eachItemIdx]);  
+                  }
+            }).
+            error(function(data, status, headers, config) {
+              console.log("Error updating hospital data.");
+            });
+
+    });
+
+    $scope.$on('$destroy', unbind);
+}]);

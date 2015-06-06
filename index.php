@@ -17,13 +17,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-    require_once 'libraries/utilities.php';
     
     //get url variables
-    $lat = $_GET["lat"];
-    $lng = $_GET["lng"];
-    $address = $_GET["address"];
+    if(isset($_GET["lat"]))
+    {
+        $lat = $_GET["lat"];
+    }
+    if(isset($_GET["lng"]))
+    {
+        $lng = $_GET["lng"];
+    }
+    if(isset($_GET["address"]))
+    {
+        $address = $_GET["address"];
+    }
+    
 ?>
 <html>
     <head>
@@ -69,7 +77,7 @@
         <link rel="stylesheet" href="styles/site.css">
         
     </head>
-    <body ng-app="healthApp" ng-controller="healthCtrl">
+    <body id="healthCtrl" ng-app="healthApp" ng-controller="healthCtrl">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
@@ -133,8 +141,13 @@
                       <div role="tabpanel" class="tab-pane active" id="census">
                           <div ng-include="'views/census.html'"></div>
                       </div>
-                      <div role="tabpanel" class="tab-pane" id="hospitals">...</div>
-                      <div role="tabpanel" class="tab-pane" id="airquality">...</div>
+                        <div role="tabpanel" class="tab-pane" id="hospitals">
+                            <div ng-include="'views/hospitals.html'"></div>
+                        </div>
+                      <div role="tabpanel" class="tab-pane" id="airquality">
+                          <div ng-include="'views/enviro.html'"></div>
+                          <input type='button' ng-click='updateAddress()' />
+                      </div>
                     </div>
 
                   </div>
@@ -156,13 +169,16 @@
         <script src='scripts/main.js'></script>
         <script src='controllers/healthCtrl.js'></script>
         <script src='controllers/censusCtrl.js'></script>
+        <script src='controllers/enviroCtrl.js'></script>
+        <script src='controllers/hospitalsCtrl.js'></script>
         
         <?php
             // if lat, lng, and address exist we will load them here
-            if(!is_null($lat) && !is_null($lng) && !is_null($address))
+            if(isset($lat) && isset($lng) && isset($address))
             {
-                echo "<script type='text/javascript'>$(function(){updateLocation($lat,$lng,'$address')});</script>";
+                echo "<script type='text/javascript'>$(function(){updateLocation($lat,$lng,'$address');});</script>";
             }
+            
         ?>
     </body>
 </html>
