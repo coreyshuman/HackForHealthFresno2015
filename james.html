@@ -24,11 +24,13 @@
                           <div ng-include="'views/census.html'"></div>
                       </div>
                       <div role="tabpanel" class="tab-pane" id="hospitals">
-                          <div ng-include="'views/hospitals.html'"></div>
+                          <ng-include src='view'></ng-include>
                       </div>
                       <div role="tabpanel" class="tab-pane" id="airquality">...</div>
                     </div>
 
+<input type="button" ng-click="changeView('views/census.html')" value="census"/>
+<input type="button" ng-click="changeView('views/hospitals.html')" value="hospitals"/>
         
             
         <script src='controllers/healthCtrl.js'></script>

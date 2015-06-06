@@ -18,5 +18,11 @@
 
 
 var app = angular.module('healthApp', []).controller('healthCtrl', function($scope) {
+
+   $scope.view = 'views/hospitals.html';
+
+   $scope.changeView = function(curPage) {
+     $scope.view = curPage;
+   }
     
 });
