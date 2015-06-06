@@ -82,12 +82,12 @@
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
               <div class="navbar-header" style='width: 200px;'>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+<!--                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                   <span class="sr-only">Toggle navigation</span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
-                </button>
+                </button>-->
                 <a class="navbar-brand" href="#">
                     <img src='images/logo_128.jpg' width='40' height='40' alt='Hack For Health'>
                 </a>
@@ -103,7 +103,7 @@
                   </div>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                  <li class="dropdown">
+<!--                  <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Options <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="#">Action</a></li>
@@ -112,7 +112,7 @@
                       <li class="divider"></li>
                       <li><a href="#">Separated link</a></li>
                     </ul>
-                  </li>
+                  </li>-->
                 </ul>
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -137,7 +137,7 @@
                     </ul>
 
                     <!-- Tab panes -->
-                    <div class="tab-content">
+                    <div class="tab-content" style="height:320px; overflow-y: scroll;">
                       <div role="tabpanel" class="tab-pane active" id="census">
                           <div ng-include="'views/census.html'"></div>
                       </div>
@@ -146,7 +146,6 @@
                         </div>
                       <div role="tabpanel" class="tab-pane" id="airquality">
                           <div ng-include="'views/enviro.html'"></div>
-                          <input type='button' ng-click='updateAddress()' />
                       </div>
                     </div>
 

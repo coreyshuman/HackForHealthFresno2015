@@ -27,6 +27,19 @@ app.controller("enviroCtrl", ['$scope', '$rootScope', '$http', function($scope, 
                 for (row in data)
                 {
                     $scope.percentRange = data[row]["CES 2.0 Percentile Range"];
+                    $scope.PollutionBurden = data[row]["Pollution Burden Pctl"];
+                    $scope.Ozone = data[row]["Ozone Pctl"];
+                    $scope.PM25 = data[row]["PM2.5 Pctl"];
+                    $scope.Diesel = data[row]["Diesel PM Pctl"];
+                    $scope.DrinkingWater = data[row]["Drinking Water Pctl"];
+                    $scope.Pesticides = data[row]["Pesticides Pctl"];
+                    $scope.ToxicReleases = data[row]["Tox. Release Pctl"];
+                    $scope.TrafficDensity = data[row]["Traffic Pctl"];
+                    $scope.CleanupSites = data[row]["Cleanup Sites Pctl"];
+                    $scope.GroundwaterThreats = data[row]["Groundwater Threats Pctl"];
+                    $scope.HazardousWaste = data[row]["Haz. Waste Pctl"];
+                    $scope.ImpairedWater = data[row]["Imp. Water Bodies Pctl"];
+                    $scope.SolidWaste = data[row]["Solid Waste Pctl"];
                 }
             }).
             error(function(data, status, headers, config) {

@@ -19,9 +19,16 @@
 
 var app = angular.module('healthApp', []).controller('healthCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
     
+   $scope.view = 'views/hospitals.html';
+
+   $scope.changeView = function(curPage) {
+     $scope.view = curPage;
+   };
+   
     $scope.updateAddress = function(geoId, lat, lng) {
-        console.log("click");
-        $rootScope.$broadcast('healthCtrl.updateAddress', '1212US06019005510');
+        $rootScope.$broadcast('healthCtrl.updateAddress', geoId);
         $rootScope.$broadcast('healthCtrl.updateAddressLatLng', {'latitude' : lat, 'longitude': lng, 'coordRange' : .145});
     };
 }]);
+
+
