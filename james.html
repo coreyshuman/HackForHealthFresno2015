@@ -5,112 +5,75 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<body>
 
-<div ng-app="boxApp" ng-controller="boxCtrl">
-<input type="text" ng-model="curZip" name="testZip"/><input type="button" name="testBtn" ng-click="getData();" value="Test"/>
+    <body ng-app="healthApp" ng-controller="healthCtrl">
 
-<div role="tabpanel">
+        
+                    <div role="tabpanel">
 
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#census" aria-controls="census" role="tab" data-toggle="tab">Census</a></li>
-    <li role="presentation"><a href="#hospitals" aria-controls="hospitals" role="tab" data-toggle="tab">Hospitals</a></li>
-    <li role="presentation"><a href="#airquality" aria-controls="airquality" role="tab" data-toggle="tab">Air Quality</a></li>
-  </ul>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#census" aria-controls="census" role="tab" data-toggle="tab">Census</a></li>
+                      <li role="presentation"><a href="#hospitals" aria-controls="hospitals" role="tab" data-toggle="tab">Hospitals</a></li>
+                      <li role="presentation"><a href="#airquality" aria-controls="airquality" role="tab" data-toggle="tab">Environment</a></li>
+                    </ul>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="census">
-      <div ng-bind="PopInfo"></div>
-      <div ng-bind="IncInfo"></div>
-      <div ng-bind="AgeInfo"></div>
-      <div ng-bind="EduInfo"></div>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="hospitals">...</div>
-    <div role="tabpanel" class="tab-pane" id="airquality">...</div>
-  </div>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane active" id="census">
+                          <div ng-include="'views/census.html'"></div>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="hospitals">
+                          <div ng-include="'views/hospitals.html'"></div>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="airquality">...</div>
+                    </div>
 
-</div>
+        
+            
+        <script src='controllers/healthCtrl.js'></script>
+        <script src='controllers/censusCtrl.js'></script>
+        <script src='controllers/hospitalsCtrl.js'></script>
+        
+    </body>
 
-</div>
 
 <script>
-
-$(document).on('ready',function() {
-
-  $('#census').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-  });
-
-  $('#hospitals').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-  });
-
-  $('#airquality').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-  });
-
-});
-
-var app = angular.module('boxApp', []);
-app.controller('boxCtrl', function($scope,$http) {
-
-  $scope.censusTableIDs = {
-    'B01003':'PopInfo',
-    'B19013':'IncInfo',
-    'B01002':'AgeInfo'
-  };
-
-  $scope.getDataValue = function (response) {
-    curObj = response['data'];
-    for (eachVar in curObj) {
-      curObj2 = curObj[eachVar];
-      for (eachVar2 in curObj2) {
-        curObj3 = curObj2[eachVar2];
-        for (eachVar3 in curObj3) {
-          curObj4 = curObj3[eachVar3];
-          for (eachVar4 in curObj4) {
-            return curObj4[eachVar4];
-            break;
-          }
-          break;
-        }
-        break;
-      }
-      break;
-    }
-  }
-
-  tableSet = '';
-
-  for (eachKey in $scope.censusTableIDs) {
-    if (tableSet == '')
-      tableSet = eachKey;
-    else
-      tableSet = tableSet + ',' + eachKey;
-  }
-
-  $scope.getData = function () {
-    $http.get('http://api.censusreporter.org/1.0/data/show/latest?table_ids='+tableSet+'&geo_ids=86000US'+$scope.curZip+'&primary_geo_id=86000US'+$scope.curZip)
-      .success(function(response) {
-        for (eachKey in $scope.censusTableIDs) {
-          $scope[$scope.censusTableIDs[eachKey]] = response['data']['86000US'+$scope.curZip][eachKey]['estimate'][eachKey+'001'];
-        }
-      });
-
-    // Fill out tab fields as needed
-    // Pull hospital data
-    // Fill out tab fields as needed
-    // Pull air quality data
-    // Fill out tab fields as needed
-  }
-
-
-});
+//var app = angular.module('boxApp', []);
+//app.controller('boxCtrl', function($scope,$http) {
+//
+//  $scope.censusTableIDs = {
+//    'B01003':'PopInfo',
+//    'B19013':'IncInfo',
+//    'B01002':'AgeInfo'
+//  };
+//
+//  tableSet = '';
+//
+//  for (eachKey in $scope.censusTableIDs) {
+//    if (tableSet == '')
+//      tableSet = eachKey;
+//    else
+//      tableSet = tableSet + ',' + eachKey;
+//  }
+//
+//  $scope.getData = function () {
+//    $http.get('http://api.censusreporter.org/1.0/data/show/latest?table_ids='+tableSet+'&geo_ids=86000US'+$scope.curZip+'&primary_geo_id=86000US'+$scope.curZip)
+//      .success(function(response) {
+//        for (eachKey in $scope.censusTableIDs) {
+////          $scope[$scope.censusTableIDs[eachKey]] = response['data']['86000US'+$scope.curZip][eachKey]['estimate'][eachKey+'001'];
+//        }
+//      });
+//
+//    // Fill out tab fields as needed
+//    // Pull hospital data
+//    // Fill out tab fields as needed
+//    // Pull air quality data
+//    // Fill out tab fields as needed
+//  }
+//
+//
+//});
 </script>
 
 </body>
