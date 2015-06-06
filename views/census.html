@@ -16,18 +16,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
-<table class='table table-condensed table-striped table-hover'>
-    <tr><td>
-      <div ng-bind="PopInfo">Population</div>
-    </td></tr>
-    <tr><td>
-      <div ng-bind="IncInfo">Income</div>
-      </td></tr>
-    <tr><td>
-      <div ng-bind="AgeInfo">Age Demographics</div>
-      </td></tr>
-    <tr><td>
-      <div ng-bind="EduInfo">Education</div>
-      </td></tr>
+<div ng-controller="censusCtrl">
+    <table class='table table-condensed table-striped table-hover'>
+        <tr><td>
+          <div ng-bind="PopInfo"></div>
+        </td></tr>
+        <tr><td>
+          <div ng-bind="IncInfo"></div>
+          </td></tr>
+        <tr><td>
+          <div ng-bind="AgeInfo"></div>
+          </td></tr>
+        <tr><td>
+          <div ng-bind="EduInfo"></div>
+          </td></tr>
 
-</table>
+    </table>
+</div>

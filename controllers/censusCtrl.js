@@ -17,6 +17,9 @@
  */
 
 
-var app = angular.module('healthApp', []).controller('healthCtrl', function($scope) {
-    
+app.controller("censusCtrl", function($scope) {
+    $scope.PopInfo = "Population";
+    $scope.IncInfo = "Income";
+    $scope.AgeInfo = "Age Demographic";
+    $scope.EduInfo = "Education";
 });

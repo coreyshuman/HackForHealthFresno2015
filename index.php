@@ -19,6 +19,11 @@
  */
 
     require_once 'libraries/utilities.php';
+    
+    //get url variables
+    $lat = $_GET["lat"];
+    $lng = $_GET["lng"];
+    $address = $_GET["address"];
 ?>
 <html>
     <head>
@@ -62,7 +67,7 @@
         <script src='scripts/cr-leaflet.js'></script>
         
         <link rel="stylesheet" href="styles/site.css">
-        <script src='scripts/main.js'></script>
+        
     </head>
     <body ng-app="healthApp" ng-controller="healthCtrl">
         <nav class="navbar navbar-default">
@@ -110,8 +115,6 @@
             <div id='MapWindowContainer' class='col-md-7'>
                 <div id='MapWindow' class='windowBordered'>
                     <div id='map'></div>
-                    
-
                 </div>
             </div>
             <div id='DataWindowContainer' class='col-md-5'>
@@ -128,7 +131,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                       <div role="tabpanel" class="tab-pane active" id="census">
-                          
+                          <div ng-include="'views/census.html'"></div>
                       </div>
                       <div role="tabpanel" class="tab-pane" id="hospitals">...</div>
                       <div role="tabpanel" class="tab-pane" id="airquality">...</div>
@@ -139,21 +142,27 @@
             </div>
         </div>
         
-        <script type="text/javascript">
             
-            
-            
-            
-            </script>
-            
-            <script id="place-result-template" type="text/template">
-                <li data-geoid="<%= full_geoid %>">
-                    <a href="/profiles/<%= full_geoid %>">
-                        <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
-                        <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
-                        <%= full_name %>
-                    </a>
-                </li>
-            </script>
+        <script id="place-result-template" type="text/template">
+            <li data-geoid="<%= full_geoid %>">
+                <a href="/profiles/<%= full_geoid %>">
+                    <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
+                    <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
+                    <%= full_name %>
+                </a>
+            </li>
+        </script>
+
+        <script src='scripts/main.js'></script>
+        <script src='controllers/healthCtrl.js'></script>
+        <script src='controllers/censusCtrl.js'></script>
+        
+        <?php
+            // if lat, lng, and address exist we will load them here
+            if(!is_null($lat) && !is_null($lng) && !is_null($address))
+            {
+                echo "<script type='text/javascript'>$(function(){updateLocation($lat,$lng,'$address')});</script>";
+            }
+        ?>
     </body>
 </html>
