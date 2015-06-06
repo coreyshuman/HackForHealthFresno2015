@@ -39,6 +39,8 @@ var lat = '',
     lng = '',
     address = '',
     point_marker = null,
+    geojsonTileLayer = null,
+    featureLayer = null,
     map = null;
 
 // prepare spinner
@@ -159,9 +161,7 @@ function makeAddressSearchWidget(element) {
 makeAddressSearchWidget($searchInput);
 
 function setMap(lat, lng) {
-    console.log('a');
     if (map) {
-        console.log('b', lat, lng);
         var map_center = new L.latLng(lat, lng);
         map.panTo(map_center);
     }
@@ -193,7 +193,18 @@ function addMapOverlay(geo_id) {
     d3.json(CR_API_URL + '/1.0/geo/tiger2013/' + geo_id + '?geom=true', function(error, json) {
         if (error) return console.warn(error);
 
-
+        if(window.geojsonTileLayer)
+        {
+            map.removeLayer(window.geojsonTileLayer);
+            //window.geojsonTileLayer.AjaxLayer._reset();
+            window.geojsonTileLayer = null;
+        }
+        if(window.featureLayer)
+        {
+            map.removeLayer(window.featureLayer);
+            //window.featureLayer.AjaxLayer._reset();
+            window.featureLayer = null;
+        }
         if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
             var defaultStyle = {
                     "clickable": true,
@@ -202,8 +213,8 @@ function addMapOverlay(geo_id) {
                     "weight": 1.0,
                     "opacity": 0.3,
                     "fillOpacity": 0.3,
-                },
-            geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, 
+                };
+            window.geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, 
                 {
                 style: defaultStyle,
                 onEachFeature: function(feature, layer) {
@@ -220,14 +231,20 @@ function addMapOverlay(geo_id) {
                         layer.setStyle(defaultStyle);
                     });
                     layer.on('click', function() {
-                        window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                        //window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                        thisGeoID = feature.properties.geoid;
+                        console.log(feature.properties);
+                        addMapOverlay(thisGeoID);
+                        var scope = angular.element($("#healthCtrl")).scope();
+                        scope.updateAddress(thisGeoID, feature.properties.lat, feature.properties.lng);
+                        
                     });
                 }
             });
-            map.addLayer(geojsonTileLayer);
+            map.addLayer(window.geojsonTileLayer);
         }
 
-        var featureLayer = L.geoJson(json, {
+        window.featureLayer = L.geoJson(json, {
             style: {
                 "fillColor": "#66c2a5",
                 "color": "#777",
@@ -235,8 +252,8 @@ function addMapOverlay(geo_id) {
                 "clickable": false
             }
         });
-        map.addLayer(featureLayer);
-        var objBounds = featureLayer.getBounds();
+        map.addLayer(window.featureLayer);
+        var objBounds = window.featureLayer.getBounds();
 
         if (thisSumlev === "010") {
             objBounds = L.latLngBounds(L.latLng(24.396, -124.849), L.latLng(49.384, -66.885));
