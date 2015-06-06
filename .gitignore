@@ -1,2 +1,5 @@
 # Files in data folder
 data/
+
+# Netbeans private config
+nbproject/private/
