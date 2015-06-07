@@ -17,19 +17,23 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 <div ng-controller="censusCtrl">
-<!-- JJV DEBUG BUTTONS -->
-<input type="text" ng-model="curTract" name="testTract"/><input type="button" name="testBtn" ng-click="getData();" value="Test"/>
-<!-- END JJV DEBUG -->
     <table class='table table-condensed table-striped table-hover'>
         <tr><td>
-          Population: <span ng-bind="PopInfo"></span>
+          <a href="#" class="" data-toggle="modal" data-target="#basicModal">Population: <span ng-bind="PopInfo"></span>
         </td></tr>
         <tr><td>
           Median Income: <span ng-bind="IncInfo"></span>
           </td></tr>
         <tr><td>
           Average Age: <span ng-bind="AgeInfo"></span>
-          </td></tr>
+        </td></tr>
+        <tr><td>% Below Poverty Line: </td></tr>
+        <tr><td># of Houses and Occupancy </td></tr>
+        <tr><td>Median Home Value:</td></tr>
+        <tr><td>Transportation: </td></tr>
+        <tr><td>Highest level of Education:</td></tr>
+        <tr><td>Geographical mobility:</td></tr>
+
 <!-- JJV TODO
         <tr><td>
           Education: <span ng-bind="EduHSInfo"></span>

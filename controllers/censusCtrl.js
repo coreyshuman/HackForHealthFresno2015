@@ -17,7 +17,7 @@
  */
 
 
-app.controller("censusCtrl", function($scope,$http) {
+app.controller("censusCtrl", ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
     $scope.PopInfo = "";
     $scope.IncInfo = "";
     $scope.AgeInfo = "";
@@ -27,7 +27,8 @@ app.controller("censusCtrl", function($scope,$http) {
     $scope.censusTableIDs = {
        'B01003':'PopInfo',
        'B19013':'IncInfo',
-       'B01002':'AgeInfo'
+       'B01002':'AgeInfo',
+       'B17001':'PovInfo'
     };
     tableSet = '';
   
@@ -46,4 +47,22 @@ app.controller("censusCtrl", function($scope,$http) {
              }
           });
     }
-});
+
+    var unbind = $rootScope.$on('healthCtrl.updateAddress', function(event, arg){
+       //$scope.getData = function () {
+          $http.get('http://api.censusreporter.org/1.0/data/show/latest?table_ids='+tableSet+'&geo_ids='+arg+'&primary_geo_id='+arg)
+             .success(function(response) {
+                 console.log("AABAB")
+                for (eachKey in $scope.censusTableIDs) {
+                  $scope[$scope.censusTableIDs[eachKey]] = response['data'][arg][eachKey]['estimate'][eachKey+'001'];
+                }
+             });
+       //}
+
+
+
+
+    });
+
+    $scope.$on('$destroy', unbind);
+}]);

@@ -17,17 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 <div ng-controller="hospitalsCtrl">
-<!-- JJV DEBUG BUTTONS -->
-<input type="text" ng-model="longitude" name="longitude"/><input type="text" ng-model="latitude" name="latitude"/><input type="button" name="testBtn" ng-click="getData();" value="Test"/>
-<!-- END JJV DEBUG -->
     <table class='table table-condensed table-striped table-hover'>
         <tr ng-repeat="x in hospInfo"><td>
            <div>{{ x.facility_name }}</div>
            <div>{{ x.dba_address1 }}</div>
            <div>{{ x.dba_city }},CA {{ x.dba_zip_code }}</div>
-           <!-- JJV DEBUG - COORDINATES -->
-           <div>{{ x.longitude }} {{ x.latitude }}</div>
-           <!-- END JJV DEBUG -->
         </td></tr>
     </table>
 </div>
